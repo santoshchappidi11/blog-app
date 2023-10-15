@@ -17,7 +17,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  likes: {
+  postLiked: {
     type: [String],
   },
   bookmarks: {
