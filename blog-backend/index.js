@@ -7,6 +7,9 @@ import morgan from "morgan";
 import {
   Login,
   Register,
+  addComment,
+  bookmarkBlog,
+  getAllBookmarkedBlogs,
   getCurrentUser,
   likeUnlikeBlog,
   updateUserDetails,
@@ -37,7 +40,10 @@ app.get("/get-all-blogs", getAllBlogs);
 app.post("/get-single-blog", getSingleBlog);
 app.post("/get-your-blogs", getYourBlogs);
 app.post("/delete-your-blog", deleteYourBlog);
-app.post("/like-unlike-blog", likeUnlikeBlog)
+app.post("/like-unlike-blog", likeUnlikeBlog);
+app.post("/bookmark-blog", bookmarkBlog);
+app.post("/get-all-bookmarked-blogs", getAllBookmarkedBlogs);
+app.post("/add-comment", addComment);
 
 mongoose
   .connect(process.env.MONGO_URL)

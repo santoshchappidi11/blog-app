@@ -1,0 +1,119 @@
+#register-screen {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+#register {
+  height: auto;
+  width: 50%;
+  margin: 12px;
+  border-radius: 5px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  /* border: 1px solid green; */
+}
+
+#register-header {
+  height: 150px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+    url("https://www.hudsonintegrated.com/pub/blogimages/20140305094710_blog49006_640.png");
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  /* border: 1px solid blue; */
+}
+
+#register-image {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+#register-image > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+#register-header > h1 {
+  position: absolute;
+  color: white;
+}
+#register-body > form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 0 0 0;
+  /* border: 1px solid orange; */
+}
+
+form > .fields {
+  height: 50px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  /* border: 1px solid black; */
+}
+
+form > .fields > label {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+form > .fields > input {
+  height: 100%;
+  width: 70%;
+  border: none;
+  outline: none;
+  transition: 0.2s ease;
+  border-bottom: 1px solid rgb(194, 194, 194);
+}
+
+form > .fields > input:hover {
+  border-bottom: 1px solid black;
+}
+
+#register-btn {
+  /* border: 1px solid black; */
+  margin: 15px 0 10px 0;
+}
+
+#register-btn > button {
+  padding: 6px 35px;
+  border: none;
+  background: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgb(146, 146, 146);
+}
+
+#have-account {
+  width: 100%;
+  text-align: center;
+  margin: 0 0 45px 0;
+  /* border: 1px solid blue; */
+}
+
+#have-account > p {
+  font-size: 15px;
+}
+
+#have-account > p > span {
+  font-weight: 500;
+  cursor: pointer;
+}

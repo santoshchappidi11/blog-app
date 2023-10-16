@@ -2,6 +2,7 @@ import UserModel from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import BlogModel from "../Models/BlogModel.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const Register = async (req, res) => {
   try {
@@ -189,7 +190,7 @@ export const likeUnlikeBlog = async (req, res) => {
     if (!blogId)
       return res
         .status(404)
-        .json({ success: false, message: "Post ID is required!" });
+        .json({ success: false, message: "blog ID is required!" });
 
     if (!token)
       return res
@@ -244,6 +245,165 @@ export const likeUnlikeBlog = async (req, res) => {
       });
     }
     return res.status(404).json({ success: false, message: "No blog found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const bookmarkBlog = async (req, res) => {
+  try {
+    const { token, blogId } = req.body;
+
+    if (!blogId)
+      return res
+        .status(404)
+        .json({ success: false, message: "blog ID is required!" });
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+    // const blog = await BlogModel.findById(blogId);
+
+    // console.log(blog);
+
+    if (user && user?.bookmarks) {
+      let flag = false;
+
+      for (let i = 0; i < user?.bookmarks?.length; i++) {
+        if (user?.bookmarks?.includes(blogId)) {
+          flag = true;
+        }
+      }
+
+      if (flag == false) {
+        user?.bookmarks?.push(blogId);
+        await user.save();
+        return res.status(200).json({
+          success: true,
+          message: "You bookamrked the blog!",
+          isBlogBookmarked: true,
+        });
+      }
+
+      const updatedBookmarks = user?.bookmarks?.filter(
+        (item) => item != blogId
+      );
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        userId,
+        { bookmarks: updatedBookmarks },
+        { new: true }
+      );
+      await updatedUser.save();
+      return res.status(200).json({
+        success: true,
+        message: "You removed the bookmark!",
+        isBlogBookmarked: false,
+      });
+    }
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const getAllBookmarkedBlogs = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      let allBookmarks = [];
+
+      for (let i = 0; i < user?.bookmarks?.length; i++) {
+        const blog = await BlogModel.findById(user.bookmarks[i]);
+
+        if (blog) {
+          allBookmarks.push(blog);
+        }
+      }
+
+      return res.status(200).json({ success: true, allBookmarks });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const { userComment, token, blogId } = req.body;
+
+    if (!token || !blogId)
+      return res
+        .status(404)
+        .json({ success: false, message: "All fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const blog = await BlogModel.findById(blogId);
+
+      if (blog && blog?.comments) {
+        const randomId = uuidv4();
+        const commentId = randomId.slice(0, 10);
+
+        const commentObj = {
+          commentId,
+          userId: user._id,
+          name: user.name,
+          comment: userComment,
+        };
+
+        blog?.comments?.push(commentObj);
+        await blog.save();
+        return res
+          .status(200)
+          .json({ success: true, message: "Your comment added!" });
+      }
+
+      return res
+        .status(404)
+        .json({ success: false, message: "No blog found!" });
+    }
+    return res.status(404).json({ success: false, message: "No user found!" });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
