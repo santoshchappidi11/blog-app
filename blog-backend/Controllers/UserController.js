@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const Register = async (req, res) => {
   try {
-    const { name, email, number, password } = req.body;
+    const { name, email, number, password } = req.body.userData;
     if (!name || !email || !password || !number)
       return res
         .status(404)
@@ -40,7 +40,7 @@ export const Register = async (req, res) => {
 
 export const Login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body.userData;
     if (!email || !password)
       return res
         .status(404)
@@ -111,7 +111,7 @@ export const getCurrentUser = async (req, res) => {
         .json({ success: false, message: "User not found!" });
 
     const userObj = {
-      _id: user?._id,
+      userId: user?._id,
       name: user?.name,
       email: user?.email,
       number: user?.number,
@@ -389,14 +389,17 @@ export const addComment = async (req, res) => {
           commentId,
           userId: user._id,
           name: user.name,
+          email: user.email,
           comment: userComment,
         };
 
         blog?.comments?.push(commentObj);
         await blog.save();
-        return res
-          .status(200)
-          .json({ success: true, message: "Your comment added!" });
+        return res.status(200).json({
+          success: true,
+          message: "Your comment added!",
+          comments: blog.comments,
+        });
       }
 
       return res

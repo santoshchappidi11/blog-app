@@ -17,10 +17,20 @@ export const getAllBlogs = async (req, res) => {
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, subtitle, image, description, category } = req.body;
+    const {
+      title,
+      subtitle,
+      image1,
+      description1,
+      image2,
+      description2,
+      image3,
+      description3,
+      category,
+    } = req.body;
     const { token } = req.body;
 
-    if (!title || !subtitle || !image || !description || !category || !token)
+    if (!title || !subtitle || !image1 || !description1 || !category || !token)
       return res
         .status(404)
         .json({ success: false, message: "All fields are mandatory!" });
@@ -37,10 +47,14 @@ export const createBlog = async (req, res) => {
     const blog = new BlogModel({
       title,
       subtitle,
-      image,
-      description,
+      image1,
+      description1,
       category,
       userId: userId,
+      image2,
+      description2,
+      image3,
+      description3,
     });
     await blog.save();
 
@@ -95,7 +109,7 @@ export const updateYourBlog = async (req, res) => {
 
 export const getSingleBlog = async (req, res) => {
   try {
-    const { blogId } = req.body;
+    const { blogId, userId } = req.body;
 
     if (!blogId)
       return res

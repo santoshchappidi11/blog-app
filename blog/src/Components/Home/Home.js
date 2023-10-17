@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [allBlogs, setAllBlogs] = useState([]);
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     const getAllBlogs = async () => {
       try {
-        const response = await api.get("/get-all-blogs", getAllBlogs);
+        const response = await api.get("/get-all-blogs");
 
         if (response.data.success) {
           setAllBlogs(response.data.allBlogs);
@@ -48,10 +50,14 @@ const Home = () => {
         <div id="all-blogs">
           {allBlogs?.length ? (
             allBlogs?.map((blog) => (
-              <div id="single-blog" key={blog._id}>
+              <div
+                id="single-blog"
+                key={blog._id}
+                onClick={() => navigateTo(`/single-blog/${blog._id}`)}
+              >
                 <div id="main-img">
                   <div id="blog-img">
-                    <img src={blog.image} alt="blog" />
+                    <img src={blog.image1} alt="blog" />
                   </div>
                 </div>
                 <div id="blog-details">
@@ -60,7 +66,8 @@ const Home = () => {
                   </div>
                   <div id="blog-desc">
                     <p>
-                      {blog.description.slice(0, 200)}... <span>Read More</span>
+                      {blog.description1.slice(0, 200)}...{" "}
+                      <span>Read More</span>
                     </p>
                   </div>
                 </div>

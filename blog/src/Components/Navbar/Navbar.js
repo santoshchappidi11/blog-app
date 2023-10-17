@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
+import { AuthContexts } from "../Context/AuthContext";
 
 const Navbar = () => {
   const navigateTo = useNavigate();
+  const { state, Logout } = useContext(AuthContexts);
 
   return (
     <div id="navbar">
       <div id="left">
-        <p>Create Your Blog</p>
-        <p>Your Blogs</p>
+        {state?.currentUser?.name && (
+          <>
+            <p>Create Your Blog</p>
+            <p>Your Blogs</p>
+          </>
+        )}
       </div>
       <div id="middle">
         <h2 onClick={() => navigateTo("/")}>
@@ -17,10 +23,12 @@ const Navbar = () => {
         </h2>
       </div>
       <div id="right">
-        <p>Santosh Chappidi</p>
-        <p>Bookmarks</p>
-        <p onClick={() => navigateTo("/login")}>Register/Login</p>
-        <p>Logout</p>
+        {state?.currentUser?.name && <p> Hi, {state?.currentUser?.name}</p>}
+        {state?.currentUser?.name && <p>Bookmarks</p>}
+        {!state?.currentUser?.name && (
+          <p onClick={() => navigateTo("/login")}>Register/Login</p>
+        )}
+        {state?.currentUser?.name && <p onClick={Logout}>Logout</p>}
       </div>
     </div>
   );

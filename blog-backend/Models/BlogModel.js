@@ -9,13 +9,25 @@ const blogSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
+  image1: {
     type: String,
     required: true,
   },
-  description: {
+  description1: {
     type: String,
     required: true,
+  },
+  image2: {
+    type: String,
+  },
+  description2: {
+    type: String,
+  },
+  image3: {
+    type: String,
+  },
+  description3: {
+    type: String,
   },
   category: {
     type: String,
