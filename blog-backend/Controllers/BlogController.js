@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import BlogModel from "../Models/BlogModel.js";
+import UserModel from "../Models/UserModel.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
@@ -27,7 +28,7 @@ export const createBlog = async (req, res) => {
       image3,
       description3,
       category,
-    } = req.body;
+    } = req.body.blogData;
     const { token } = req.body;
 
     if (!title || !subtitle || !image1 || !description1 || !category || !token)
@@ -68,8 +69,18 @@ export const createBlog = async (req, res) => {
 
 export const updateYourBlog = async (req, res) => {
   try {
-    const { title, subtitle, image, description, category } = req.body;
-    const { blogId, token } = req.body;
+    const {
+      title,
+      subtitle,
+      image1,
+      description1,
+      image2,
+      description2,
+      image3,
+      description3,
+      category,
+    } = req.body.blogData;
+    const { editBlogId, token } = req.body;
 
     if (!token)
       return res
@@ -86,8 +97,18 @@ export const updateYourBlog = async (req, res) => {
     const userId = decodedData.userId;
 
     const updatedBlog = await BlogModel.findOneAndUpdate(
-      { _id: blogId, userId: userId },
-      { title, subtitle, image, description, category },
+      { _id: editBlogId, userId: userId },
+      {
+        title,
+        subtitle,
+        image1,
+        description1,
+        image2,
+        description2,
+        image3,
+        description3,
+        category,
+      },
       { new: true }
     );
 
@@ -109,7 +130,7 @@ export const updateYourBlog = async (req, res) => {
 
 export const getSingleBlog = async (req, res) => {
   try {
-    const { blogId, userId } = req.body;
+    const { blogId } = req.body;
 
     if (!blogId)
       return res
@@ -117,13 +138,19 @@ export const getSingleBlog = async (req, res) => {
         .json({ success: true, message: "blog Id is required!" });
 
     const singleBlog = await BlogModel.findById(blogId);
+    const { userId } = singleBlog;
+
+    const user = await UserModel.findById(userId);
+    // console.log(user, "here");
 
     if (!singleBlog)
       return res
         .status(404)
         .json({ success: false, message: "Failed to fetch blog!" });
 
-    return res.status(200).json({ success: true, singleBlog });
+    return res
+      .status(200)
+      .json({ success: true, singleBlog, user, comments: singleBlog.comments });
   } catch (error) {
     return res.status(500).json({ success: false, message: error });
   }
@@ -133,26 +160,28 @@ export const getYourBlogs = async (req, res) => {
   try {
     const { token } = req.body;
 
+    console.log(token);
+
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
     if (!decodedData)
       return res
         .status(404)
-        .json({ status: "error", message: "Not a valid token!" });
+        .json({ success: false, message: "Not a valid token!" });
 
     const userId = decodedData.userId;
 
     const blogs = await BlogModel.find({ userId: userId });
 
-    if (blogs.length)
+    console.log(blogs, "blogs");
+
+    if (blogs?.length)
       return res
         .status(200)
-        .json({ status: "success", "No of blogs": blogs.length, blogs });
+        .json({ success: true, "No of blogs": blogs.length, blogs: blogs });
 
-    return res
-      .status(404)
-      .json({ status: "error", message: "No Blogs Found!" });
+    return res.status(404).json({ success: false, message: "No Blogs Found!" });
   } catch (error) {
-    return res.status(500).json({ status: "error", error: error.message });
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -185,6 +214,38 @@ export const deleteYourBlog = async (req, res) => {
     return res
       .status(404)
       .json({ success: false, message: "Something went wrong!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const getEditBlogData = async (req, res) => {
+  try {
+    const { token, editBlogId } = req.body;
+
+    if (!token || !editBlogId)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token and Blog Id is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user && user?.role == "Admin") {
+      const blog = await BlogModel.findById(editBlogId);
+
+      return res.status(200).json({ success: true, blog: blog });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }

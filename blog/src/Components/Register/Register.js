@@ -13,6 +13,7 @@ const Register = () => {
     number: "",
     password: "",
     confirmPassword: "",
+    role: "User",
   });
 
   // console.log(userData);
@@ -29,7 +30,8 @@ const Register = () => {
       userData.email &&
       userData.number &&
       userData.password &&
-      userData.confirmPassword
+      userData.confirmPassword &&
+      userData.role
     ) {
       if (userData.password == userData.confirmPassword) {
         try {
@@ -43,6 +45,7 @@ const Register = () => {
               number: "",
               password: "",
               confirmPassword: "",
+              role: "User",
             });
             navigateTo("/login");
           } else {
@@ -74,7 +77,7 @@ const Register = () => {
         <div id="register-body">
           <form onSubmit={handleRegisterSubmit}>
             <div className="fields">
-              <label>Your Name:</label>
+              <label>Your Name :</label>
               <input
                 type="text"
                 name="name"
@@ -83,7 +86,7 @@ const Register = () => {
               />
             </div>
             <div className="fields">
-              <label>Your Email:</label>
+              <label>Your Email :</label>
               <input
                 type="text"
                 name="email"
@@ -92,7 +95,7 @@ const Register = () => {
               />
             </div>
             <div className="fields">
-              <label>Your Number:</label>
+              <label>Your Number :</label>
               <input
                 type="number"
                 name="number"
@@ -101,7 +104,7 @@ const Register = () => {
               />
             </div>
             <div className="fields">
-              <label>Your Password:</label>
+              <label>Your Password :</label>
               <input
                 type="password"
                 name="password"
@@ -110,13 +113,24 @@ const Register = () => {
               />
             </div>
             <div className="fields">
-              <label>Confirm Password:</label>
+              <label>Confirm Password :</label>
               <input
                 type="password"
                 name="confirmPassword"
                 onChange={handleChangeValues}
                 value={userData.confirmPassword}
               />
+            </div>
+            <div className="role">
+              <label>Select Role :</label>
+              <select
+                name="role"
+                onChange={handleChangeValues}
+                value={userData.role}
+              >
+                <option>User</option>
+                <option>Admin</option>
+              </select>
             </div>
             <div id="register-btn">
               <button type="submit">Register</button>

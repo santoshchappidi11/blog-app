@@ -1,41 +1,45 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css";
-import toast from "react-hot-toast";
+import "./YourBlogs.css";
 import api from "../../ApiConfig";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
-  const [allBlogs, setAllBlogs] = useState([]);
+const YourBlogs = () => {
+  const [yourBlogs, setYourBlogs] = useState([]);
   const navigateTo = useNavigate();
 
-  useEffect(() => {
-    const getAllBlogs = async () => {
-      try {
-        const response = await api.get("/get-all-blogs");
+  
 
-        if (response.data.success) {
-          setAllBlogs(response.data.allBlogs);
-        } else {
-          toast.error(response.data.message);
+  useEffect(() => {
+    const getYourBlogs = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+      if (token) {
+        try {
+          const response = await api.post("/get-your-blogs", { token });
+
+          if (response.data.success) {
+            setYourBlogs(response.data.blogs);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
         }
-      } catch (error) {
-        toast.error(error.response.data.message);
       }
     };
-
-    getAllBlogs();
+    getYourBlogs();
   }, []);
 
   return (
-    <div id="home-screen">
-      <div id="home-header">
-        <div id="home-header-left">
+    <div id="your-blog-screen">
+      <div id="your-blog-header">
+        <div id="your-blog-header-left">
           <div id="search">
             <i class="fa-solid fa-magnifying-glass fa-xl"></i>
             <input type="text" placeholder="Search blogs..." />
           </div>
         </div>
-        <div id="home-header-right">
+        <div id="your-blog-header-right">
           <div id="blogs-category">
             <p>Category :</p>
             <select defaultValue="All Blogs">
@@ -46,10 +50,10 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div id="home-body">
+      <div id="your-blog-body">
         <div id="all-blogs">
-          {allBlogs?.length ? (
-            allBlogs?.map((blog) => (
+          {yourBlogs?.length ? (
+            yourBlogs?.map((blog) => (
               <div
                 id="single-blog"
                 key={blog._id}
@@ -85,4 +89,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default YourBlogs;

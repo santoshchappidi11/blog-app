@@ -18,6 +18,7 @@ import {
   createBlog,
   deleteYourBlog,
   getAllBlogs,
+  getEditBlogData,
   getSingleBlog,
   getYourBlogs,
   updateYourBlog,
@@ -44,6 +45,7 @@ app.post("/like-unlike-blog", likeUnlikeBlog);
 app.post("/bookmark-blog", bookmarkBlog);
 app.post("/get-all-bookmarked-blogs", getAllBookmarkedBlogs);
 app.post("/add-comment", addComment);
+app.post("/get-edit-blog-data", getEditBlogData);
 
 mongoose
   .connect(process.env.MONGO_URL)

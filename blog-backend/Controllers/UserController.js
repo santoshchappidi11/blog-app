@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export const Register = async (req, res) => {
   try {
-    const { name, email, number, password } = req.body.userData;
-    if (!name || !email || !password || !number)
+    const { name, email, number, password, role } = req.body.userData;
+    if (!name || !email || !password || !number || !role)
       return res
         .status(404)
         .json({ success: false, message: "All fields are required!" });
@@ -27,6 +27,7 @@ export const Register = async (req, res) => {
       email,
       number,
       password: hashedPassword,
+      role,
     });
     await user.save();
     return res.status(200).json({
@@ -63,10 +64,11 @@ export const Login = async (req, res) => {
 
     if (isPasswordRight) {
       const userObject = {
+        userId: user._id,
         name: user.name,
         email: user.email,
-        userId: user._id,
         number: user.number,
+        role: user.role,
       };
 
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
@@ -115,6 +117,7 @@ export const getCurrentUser = async (req, res) => {
       name: user?.name,
       email: user?.email,
       number: user?.number,
+      role: user?.role,
     };
 
     return res.status(200).json({ success: true, user: userObj });
@@ -161,6 +164,7 @@ export const updateUserDetails = async (req, res) => {
           name: user?.name,
           email: user?.email,
           number: user?.number,
+          role: user?.role,
         };
         return res.status(200).json({
           success: true,
@@ -213,7 +217,6 @@ export const likeUnlikeBlog = async (req, res) => {
 
     if (blog && blog?.likes) {
       let blogFlag = false;
-      let userFlag = false;
 
       for (let i = 0; i < blog?.likes?.length; i++) {
         if (blog?.likes?.includes(user._id)) {
@@ -361,6 +364,8 @@ export const getAllBookmarkedBlogs = async (req, res) => {
 export const addComment = async (req, res) => {
   try {
     const { userComment, token, blogId } = req.body;
+
+    console.log(userComment, token, blogId);
 
     if (!token || !blogId)
       return res

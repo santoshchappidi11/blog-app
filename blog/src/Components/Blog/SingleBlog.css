@@ -69,21 +69,29 @@
 }
 
 #blog-actions > .fa-pen-to-square,
-.fa-trash {
+.fa-trash,
+.fa-heart,
+.fa-bookmark {
   margin: 0 6px;
   font-size: 25px;
+  /* cursor: pointer; */
 }
 
 #single-blog-title {
   width: 100%;
   text-align: center;
   margin: 10px 0 20px 0;
+  padding: 0 50px;
   /* border: 5px solid black; */
 }
 
 #single-blog-title > h2 {
   font-weight: 600;
   font-size: 28px;
+}
+
+#single-blog-title > span {
+  font-size: 20px;
 }
 
 #single-blog-body {
@@ -160,8 +168,10 @@
 
 .comment {
   width: 40%;
-  margin: 0 0 0 100px;
-  /* border: 2px solid green; */
+  margin: 0 0 15px 120px;
+  padding: 15px 0;
+  border-radius: 5px;
+  border: 1px solid rgb(230, 230, 230);
 }
 
 .user {

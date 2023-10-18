@@ -10,10 +10,10 @@ const Navbar = () => {
   return (
     <div id="navbar">
       <div id="left">
-        {state?.currentUser?.name && (
+        {state?.currentUser?.role == "Admin" && (
           <>
-            <p>Create Your Blog</p>
-            <p>Your Blogs</p>
+            <p onClick={() => navigateTo("/create-blog")}>Create Your Blog</p>
+            <p onClick={() => navigateTo("/your-blogs")}>Your Blogs</p>
           </>
         )}
       </div>
@@ -23,8 +23,13 @@ const Navbar = () => {
         </h2>
       </div>
       <div id="right">
-        {state?.currentUser?.name && <p> Hi, {state?.currentUser?.name}</p>}
-        {state?.currentUser?.name && <p>Bookmarks</p>}
+        {state?.currentUser?.name && (
+          <p>
+            {" "}
+            Hi, {state?.currentUser?.name}({state?.currentUser?.role})
+          </p>
+        )}
+        {state?.currentUser?.role == "User" && <p>Bookmarks</p>}
         {!state?.currentUser?.name && (
           <p onClick={() => navigateTo("/login")}>Register/Login</p>
         )}

@@ -1,20 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./SingleBlog.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../Context/AuthContext";
 
 const SingleBlog = () => {
-  // const { state } = useContext(AuthContexts);
+  const { state } = useContext(AuthContexts);
   const { blogId } = useParams();
+  const navigateTo = useNavigate();
   const [singleBlog, setSingleBlog] = useState({});
   const [userComment, setUserComment] = useState("");
   const [allComments, setAllComments] = useState([]);
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [isBlogLiked, setIsBlogLiked] = useState();
 
   const handleChangeValues = (e) => {
-    setUserComment({ ...userComment, [e.target.name]: e.target.value });
+    setUserComment(e.target.value);
+  };
+
+  const handleLikeUnlike = async () => {
+    console.log("clikced");
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token && blogId) {
+      try {
+        const response = await api.post("/like-unlike-blog", { token, blogId });
+
+        if (response.data.success) {
+          setIsBlogLiked(response.data.isBlogLike);
+          toast.success(response.data.message);
+        } else {
+          // setIsUserLiked(response.data.isBlogLike);
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   const handleCommentSubmit = async (blogId) => {
@@ -51,11 +74,12 @@ const SingleBlog = () => {
         try {
           const response = await api.post("/get-single-blog", {
             blogId,
-            // userId: state?.currentUser?.userId,
           });
 
           if (response.data.success) {
             setSingleBlog(response.data.singleBlog);
+            setAllComments(response.data.comments);
+            setUser(response.data.user);
           } else {
             toast.error(response.data.message);
           }
@@ -75,8 +99,8 @@ const SingleBlog = () => {
           <div id="author">
             <i class="fa-solid fa-circle-user fa-2x"></i>
             <div id="author-details">
-              <p>Santosh Chappidi</p>
-              <span>santosh@gmail.com</span>
+              <p>{user?.name}</p>
+              <span>{user?.email}</span>
             </div>
           </div>
           <div id="blog-created">
@@ -84,18 +108,44 @@ const SingleBlog = () => {
           </div>
         </div>
         <div id="blog-actions">
-          <div>
-            <i class="fa-solid fa-pen-to-square fa-2x"></i>
-            <p>Edit Your Blog</p>
-          </div>
-          <div>
-            <i class="fa-solid fa-trash fa-2x"></i>
-            <p>Delete Your Blog</p>
-          </div>
+          {state?.currentUser?.role == "Admin" ? (
+            <>
+              <div
+                onClick={() => navigateTo(`/edit-your-blog/${singleBlog._id}`)}
+              >
+                <i class="fa-solid fa-pen-to-square fa-2x"></i>
+                <p>Edit Your Blog</p>
+              </div>
+              <div>
+                <i class="fa-solid fa-trash fa-2x"></i>
+                <p>Delete Your Blog</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <i
+                  class="fa-regular fa-heart fa-2x"
+                  style={{
+                    cursor: "pointer",
+                    color: `${isBlogLiked ? "red" : "black"}`,
+                    // color: "red",
+                  }}
+                  onClick={handleLikeUnlike}
+                ></i>
+                <p>Like</p>
+              </div>
+              <div>
+                <i class="fa-regular fa-bookmark fa-2x"></i>
+                <p>Bookmark</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div id="single-blog-title">
         <h2>{singleBlog.title}</h2>
+        <span>{singleBlog.subtitle}</span>
       </div>
       <div id="single-blog-body">
         <div className="description">
@@ -137,6 +187,7 @@ const SingleBlog = () => {
             type="text"
             placeholder="comment here..."
             onChange={handleChangeValues}
+            value={userComment}
           />
           <button
             type="submit"
@@ -157,7 +208,7 @@ const SingleBlog = () => {
                   </div>
                 </div>
                 <div className="user-comment">
-                  <span>{item?.userComment[0]}</span>
+                  <span>{item?.comment}</span>
                 </div>
               </div>
             ))

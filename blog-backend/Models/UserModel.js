@@ -17,6 +17,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["Admin", "User"],
+  },
   blogLiked: {
     type: [String],
   },
