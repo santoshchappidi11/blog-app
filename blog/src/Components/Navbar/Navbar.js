@@ -29,7 +29,9 @@ const Navbar = () => {
             Hi, {state?.currentUser?.name}({state?.currentUser?.role})
           </p>
         )}
-        {state?.currentUser?.role == "User" && <p>Bookmarks</p>}
+        {state?.currentUser?.role == "User" && (
+          <p onClick={() => navigateTo("/all-bookmarks")}>Bookmarks</p>
+        )}
         {!state?.currentUser?.name && (
           <p onClick={() => navigateTo("/login")}>Register/Login</p>
         )}

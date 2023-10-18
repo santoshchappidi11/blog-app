@@ -295,7 +295,7 @@ export const bookmarkBlog = async (req, res) => {
         await user.save();
         return res.status(200).json({
           success: true,
-          message: "You bookamrked the blog!",
+          message: "You bookmarked the blog!",
           isBlogBookmarked: true,
         });
       }

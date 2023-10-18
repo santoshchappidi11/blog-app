@@ -8,6 +8,7 @@ import SingleBlog from "./Components/Blog/SingleBlog";
 import CreateBlog from "./Components/Blog/CreateBlog";
 import YourBlogs from "./Components/Blog/YourBlogs";
 import EditYourBlog from "./Components/Blog/EditYourBlog";
+import AllBookmarkBlogs from "./Components/Blog/AllBookmarkBlogs";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           path="/edit-your-blog/:editBlogId"
           element={<EditYourBlog />}
         />
+        <Route exact path="/all-bookmarks" element={<AllBookmarkBlogs />} />
       </Routes>
     </div>
   );

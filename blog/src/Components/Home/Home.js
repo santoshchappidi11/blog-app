@@ -7,11 +7,33 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [allBlogs, setAllBlogs] = useState([]);
   const navigateTo = useNavigate();
+  const [title, setTitle] = useState("");
+  const [categoryValue, setCategoryValue] = useState({ filter: "" });
+
+  console.log(categoryValue.filter, "category here");
+
+  const handleCategoryValue = (e) => {
+    setCategoryValue({ [e.target.name]: e.target.value });
+  };
+
+  // useEffect(() => {
+  //   if (allBlogs?.length && categoryValue.filter != "All") {
+  //     const finalBlogs = allBlogs?.filter(
+  //       (item) => item.category == categoryValue.filter
+  //     );
+
+  //     setAllBlogs(finalBlogs);
+  //   }
+  // }, [allBlogs, categoryValue]);
+
+  const handleSearchValue = (e) => {
+    setTitle(e.target.value);
+  };
 
   useEffect(() => {
     const getAllBlogs = async () => {
       try {
-        const response = await api.get("/get-all-blogs");
+        const response = await api.post("/get-all-blogs", { title });
 
         if (response.data.success) {
           setAllBlogs(response.data.allBlogs);
@@ -24,7 +46,7 @@ const Home = () => {
     };
 
     getAllBlogs();
-  }, []);
+  }, [title]);
 
   return (
     <div id="home-screen">
@@ -32,13 +54,23 @@ const Home = () => {
         <div id="home-header-left">
           <div id="search">
             <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-            <input type="text" placeholder="Search blogs..." />
+            <input
+              type="text"
+              placeholder="Search blogs..."
+              onChange={handleSearchValue}
+              value={title}
+            />
           </div>
         </div>
         <div id="home-header-right">
           <div id="blogs-category">
             <p>Category :</p>
-            <select defaultValue="All Blogs">
+            <select
+              name="filter"
+              onChange={handleCategoryValue}
+              value={categoryValue.filter}
+            >
+              <option>All</option>
               <option>Food</option>
               <option>Technology</option>
               <option>Automobiles</option>

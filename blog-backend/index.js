@@ -37,7 +37,7 @@ app.post("/get-current-user", getCurrentUser);
 app.post("/update-user-details", updateUserDetails);
 app.post("/create-blog", createBlog);
 app.post("/update-your-blog", updateYourBlog);
-app.get("/get-all-blogs", getAllBlogs);
+app.post("/get-all-blogs", getAllBlogs);
 app.post("/get-single-blog", getSingleBlog);
 app.post("/get-your-blogs", getYourBlogs);
 app.post("/delete-your-blog", deleteYourBlog);

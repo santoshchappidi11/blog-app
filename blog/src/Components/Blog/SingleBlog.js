@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../Context/AuthContext";
+import LikeBlog from "./LikeBlog";
+import BookmarkBlog from "./BookmarkBlog";
 
 const SingleBlog = () => {
   const { state } = useContext(AuthContexts);
@@ -13,27 +15,33 @@ const SingleBlog = () => {
   const [userComment, setUserComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const [user, setUser] = useState({});
-  const [isBlogLiked, setIsBlogLiked] = useState();
+  const [modifiedDate, setModifiedDate] = useState("");
+
+  useEffect(() => {
+    if (singleBlog?.date) {
+      const date = new Date(singleBlog?.date);
+
+      setModifiedDate(date.toDateString());
+    }
+  }, [singleBlog]);
 
   const handleChangeValues = (e) => {
     setUserComment(e.target.value);
   };
 
-  const handleLikeUnlike = async () => {
-    console.log("clikced");
+  const handleDeleteBlog = async (blogId) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
-    if (token && blogId) {
-      try {
-        const response = await api.post("/like-unlike-blog", { token, blogId });
+    if (token) {
+      const response = await api.post("/delete-your-blog", { token, blogId });
 
-        if (response.data.success) {
-          setIsBlogLiked(response.data.isBlogLike);
-          toast.success(response.data.message);
-        } else {
-          // setIsUserLiked(response.data.isBlogLike);
-          toast.error(response.data.message);
-        }
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+
+      try {
       } catch (error) {
         toast.error(error.response.data.message);
       }
@@ -104,7 +112,7 @@ const SingleBlog = () => {
             </div>
           </div>
           <div id="blog-created">
-            <p>12 sat 2023</p>
+            <p>{modifiedDate}</p>
           </div>
         </div>
         <div id="blog-actions">
@@ -116,29 +124,15 @@ const SingleBlog = () => {
                 <i class="fa-solid fa-pen-to-square fa-2x"></i>
                 <p>Edit Your Blog</p>
               </div>
-              <div>
+              <div onClick={() => handleDeleteBlog(singleBlog._id)}>
                 <i class="fa-solid fa-trash fa-2x"></i>
                 <p>Delete Your Blog</p>
               </div>
             </>
           ) : (
             <>
-              <div>
-                <i
-                  class="fa-regular fa-heart fa-2x"
-                  style={{
-                    cursor: "pointer",
-                    color: `${isBlogLiked ? "red" : "black"}`,
-                    // color: "red",
-                  }}
-                  onClick={handleLikeUnlike}
-                ></i>
-                <p>Like</p>
-              </div>
-              <div>
-                <i class="fa-regular fa-bookmark fa-2x"></i>
-                <p>Bookmark</p>
-              </div>
+              <LikeBlog blogId={singleBlog._id} />
+              <BookmarkBlog blogId={singleBlog._id} />
             </>
           )}
         </div>

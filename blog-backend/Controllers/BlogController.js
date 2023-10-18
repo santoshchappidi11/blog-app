@@ -4,7 +4,14 @@ import UserModel from "../Models/UserModel.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const allBlogs = await BlogModel.find({});
+    const { title } = req.body;
+
+    const query = {};
+    if (title) {
+      query.title = { $regex: title, $options: "i" };
+    }
+
+    const allBlogs = await BlogModel.find(query).lean();
 
     if (allBlogs?.length) {
       return res.status(200).json({ success: true, allBlogs });
@@ -196,7 +203,7 @@ export const deleteYourBlog = async (req, res) => {
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
-    const userId = decodedData.userId;
+    const userId = decodedData?.userId;
 
     const isBlogDeleted = await BlogModel.findOneAndDelete({
       _id: blogId,

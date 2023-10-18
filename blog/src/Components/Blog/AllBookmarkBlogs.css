@@ -1,0 +1,135 @@
+#bookmark-blogs-screen {
+  height: auto;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#bookmark-blogs-header {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  margin: 10px 0 20px 0;
+  /* border: 1px solid red; */
+}
+
+#bookmark-blogs-header-left {
+  width: 50%;
+  /* border: 1px solid blue; */
+}
+
+#search {
+  height: auto;
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid rgb(172, 172, 172);
+}
+
+#search > input {
+  height: 38px;
+  width: 85%;
+  border: none;
+  outline: none;
+}
+
+#bookmark-blogs-header-right {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* border: 1px solid green; */
+}
+
+#blogs-category {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#blogs-category > select {
+  height: 35px;
+  width: 60%;
+  cursor: pointer;
+  font-size: 15px;
+  outline: none;
+}
+
+#all-blogs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  /* border: 1px solid red; */
+}
+
+#single-blog {
+  width: 27%;
+  cursor: pointer;
+  /* border: 1px solid green; */
+}
+
+#main-img {
+  height: 250px;
+  width: 100%;
+}
+
+#blog-img {
+  height: 100%;
+  width: 100%;
+}
+
+#blog-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+#blog-details {
+  padding: 5px 5px 10px 5px;
+  /* border: 1px solid blue; */
+}
+
+#blog-title {
+  /* border: 1px solid red; */
+}
+
+#blog-title > h4 {
+  font-size: 20px;
+}
+
+#blog-desc {
+  padding: 10px 0;
+  /* border: 1px solid green; */
+}
+
+#blog-desc > p {
+  text-align: justify;
+  font-size: 14px;
+}
+
+#blog-desc > p > span {
+  cursor: pointer;
+}
+
+#blog-category {
+  /* border: 1px solid black; */
+}
+
+#blog-category > button {
+  padding: 5px 12px;
+  border: none;
+  background: none;
+  /* border: 1px solid rgb(170, 170, 170); */
+  border-radius: 2px;
+  font-weight: 500;
+  background-color: rgb(214, 214, 214);
+}
