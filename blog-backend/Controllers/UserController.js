@@ -398,7 +398,7 @@ export const addComment = async (req, res) => {
   try {
     const { userComment, token, blogId } = req.body;
 
-    console.log(userComment, token, blogId);
+    // console.log(userComment, token, blogId);
 
     if (!token || !blogId)
       return res
@@ -445,6 +445,81 @@ export const addComment = async (req, res) => {
         .json({ success: false, message: "No blog found!" });
     }
     return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  try {
+    const { token, blogId, ID } = req.body;
+    // console.log(token, blogId, ID, "all here");
+
+    if (!token || !blogId || !ID)
+      return res
+        .status(404)
+        .json({ success: false, message: "All fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const blog = await BlogModel.findById(blogId);
+
+      if (blog && blog?.comments) {
+        let flag = false;
+
+        for (let i = 0; i < blog?.comments?.length; i++) {
+          if (
+            blog?.comments[i]?.userId?.equals(user._id) &&
+            blog?.comments[i]?.commentId == ID
+          ) {
+            console.log(blog?.comments[i]?.userId, "comment user id");
+            console.log(user._id, "login user id");
+            console.log(blog?.comments[i]?.commentId, "comment id");
+            console.log(ID, "body id");
+            flag = true;
+            console.log("true reached here");
+          }
+        }
+
+        if (flag == false) {
+          return res.status(404).json({
+            success: false,
+            message: "Can't delete, Not your comment!",
+          });
+        }
+
+        const filteredComments = blog?.comments?.filter(
+          (item) => item.commentId != ID
+        );
+
+        blog.comments = filteredComments;
+
+        await blog.save();
+
+        // console.log(blog, "updated");
+        return res.status(200).json({
+          success: true,
+          message: "Your Comment Deleted!",
+          comments: blog.comments,
+        });
+      }
+
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog Not found!" });
+    }
+
+    return res.status(404).json({ success: false, message: "User not found!" });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }

@@ -43,14 +43,17 @@ const Login = () => {
 
   return (
     <div id="login-screen">
+      <div id="login-header-style">
+        <h1>S</h1>
+        <h1>I</h1>
+        <h1>G</h1>
+        <h1>N</h1>
+        <br />
+        <h1>I</h1>
+        <h1>N</h1>
+      </div>
       <div id="login">
         <div id="login-header">
-          {/* <div id="login-image">
-          <img
-            src="https://www.hudsonintegrated.com/pub/blogimages/20140305094710_blog49006_640.png"
-            alt="login"
-          />
-        </div> */}
           <h1>SIGN IN</h1>
         </div>
         <div id="login-body">

@@ -97,14 +97,24 @@ const EditYourBlog = () => {
 
   return (
     <div id="edit-blog-screen">
+      <div id="edit-blog-header-style">
+        <h1>E</h1>
+        <h1>D</h1>
+        <h1>I</h1>
+        <h1>T</h1>
+        <br />
+        <h1>Y</h1>
+        <h1>O</h1>
+        <h1>U</h1>
+        <h1>R</h1>
+        <br/>
+        <h1>B</h1>
+        <h1>L</h1>
+        <h1>O</h1>
+        <h1>G</h1>
+      </div>
       <div id="edit-blog">
         <div id="edit-blog-header">
-          {/* <div id="creat-blog-image">
-            <img
-              src="https://www.hudsonintegrated.com/pub/blogimages/20140305094710_blog49006_640.png"
-              alt="edit-blog"
-            />
-          </div> */}
           <h1>EDIT YOUR BLOG</h1>
         </div>
         <div id="edit-blog-body">

@@ -9,6 +9,7 @@ import {
   Register,
   addComment,
   bookmarkBlog,
+  deleteComment,
   getAllBookmarkedBlogs,
   getCurrentUser,
   likeUnlikeBlog,
@@ -46,6 +47,7 @@ app.post("/bookmark-blog", bookmarkBlog);
 app.post("/get-all-bookmarked-blogs", getAllBookmarkedBlogs);
 app.post("/add-comment", addComment);
 app.post("/get-edit-blog-data", getEditBlogData);
+app.post("/delete-comment", deleteComment);
 
 mongoose
   .connect(process.env.MONGO_URL)

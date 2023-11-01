@@ -67,14 +67,21 @@ const CreateBlog = () => {
 
   return (
     <div id="create-blog-screen">
+      <div id="create-blog-header-style">
+        <h1>C</h1>
+        <h1>R</h1>
+        <h1>E</h1>
+        <h1>A</h1>
+        <h1>T</h1>
+        <h1>E</h1>
+        <br/>
+        <h1>B</h1>
+        <h1>L</h1>
+        <h1>O</h1>
+        <h1>G</h1>
+      </div>
       <div id="create-blog">
         <div id="create-blog-header">
-          {/* <div id="creat-blog-image">
-            <img
-              src="https://www.hudsonintegrated.com/pub/blogimages/20140305094710_blog49006_640.png"
-              alt="create-blog"
-            />
-          </div> */}
           <h1>CREATE BLOG</h1>
         </div>
         <div id="create-blog-body">

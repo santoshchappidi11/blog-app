@@ -102,6 +102,31 @@ const SingleBlog = () => {
     getSingleBlog();
   }, [blogId]);
 
+  const deleteBlogComment = async (ID) => {
+    console.log("delete comment here");
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token && blogId) {
+      // console.log(token, blogId, ID, "all here");
+      try {
+        const response = await api.post("/delete-comment", {
+          token,
+          ID,
+          blogId,
+        });
+
+        if (response.data.success) {
+          setAllComments(response.data.comments);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
   return (
     <div id="single-blog-scrren">
       <div id="single-blog-header">
@@ -200,6 +225,14 @@ const SingleBlog = () => {
           {allComments?.length ? (
             allComments.map((item) => (
               <div className="comment" key={item?.commentId}>
+                <div className="delete-comment">
+                  <div
+                    className="main-delete-comment"
+                    onClick={() => deleteBlogComment(item?.commentId)}
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                </div>
                 <div className="user">
                   <i class="fa-solid fa-circle-user fa-2x"></i>
                   <div className="user-details">

@@ -2,9 +2,37 @@
   height: auto;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   /* border: 1px solid red; */
+}
+
+#create-blog-header-style {
+  text-align: center;
+}
+
+#create-blog-header-style > h1 {
+  font-size: 35px;
+  text-transform: uppercase;
+}
+
+#create-blog-header-style::after {
+  content: "";
+  position: absolute;
+  top: 95%;
+  width: 10%;
+  aspect-ratio: 3 / 1;
+  transform: translate(-50%, 392%);
+  border-radius: 50%;
+  border: 6px solid hsl(251, 100%, 50%);
+  /* Use a conic gradient mask to hide and show the bits you want */
+  --spread: 140deg;
+  --start: 290deg;
+  mask: conic-gradient(
+    from var(--start),
+    white 0 var(--spread),
+    transparent var(--spread)
+  );
 }
 
 #create-blog {

@@ -64,14 +64,17 @@ const Register = () => {
 
   return (
     <div id="register-screen">
+      <div id="register-header-style">
+        <h1>S</h1>
+        <h1>I</h1>
+        <h1>G</h1>
+        <h1>N</h1>
+        <br />
+        <h1>U</h1>
+        <h1>P</h1>
+      </div>
       <div id="register">
         <div id="register-header">
-          {/* <div id="register-image">
-            <img
-              src="https://www.hudsonintegrated.com/pub/blogimages/20140305094710_blog49006_640.png"
-              alt="register"
-            />
-          </div> */}
           <h1>SIGN UP</h1>
         </div>
         <div id="register-body">

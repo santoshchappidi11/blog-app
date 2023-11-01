@@ -118,6 +118,7 @@
   height: 350px;
   width: 45%;
   overflow: hidden;
+  border-radius: 6px;
   /* border: 1px solid black; */
 }
 
@@ -194,14 +195,36 @@
 #all-comments {
   width: 100%;
   padding: 20px 0 50px 0;
+  /* display: table; */
+  /* flex-direction: column; */
+  /* border: 1px solid black; */
 }
 
 .comment {
-  width: 40%;
+  /* width: 40%; */
+  display: table;
   margin: 0 0 15px 120px;
-  padding: 15px 0;
+  padding: 10px 30px 15px 30px;
   border-radius: 5px;
-  border: 1px solid rgb(230, 230, 230);
+  background-color: white;
+  /* border: 1px solid rgb(230, 230, 230); */
+}
+
+.comment > .delete-comment {
+  text-align: end;
+  /* border: 1px solid black; */
+}
+
+.comment > .delete-comment > .main-delete-comment {
+  width: auto;
+  display: inline-block;
+  cursor: pointer;
+  text-align: end;
+  /* border: 1px solid black; */
+}
+
+.comment > .delete-comment > .fa-xmark {
+  text-align: end;
 }
 
 .user {
@@ -209,9 +232,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 10px 0 10px;
-  /* margin: 0 50px; */
-  /* flex-direction: column; */
   /* border: 1px solid black; */
 }
 
@@ -232,11 +252,12 @@
 
 .fa-circle-user {
   font-size: 45px;
+  margin: 0 5px 0 0;
 }
 
 .user-comment {
   width: 90%;
-  margin: 5px 0 0 60px;
+  margin: 5px 0 0 55px;
   /* border: 1px solid red; */
 }
 
