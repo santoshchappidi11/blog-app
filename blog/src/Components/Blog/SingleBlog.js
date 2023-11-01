@@ -112,6 +112,7 @@ const SingleBlog = () => {
             </div>
           </div>
           <div id="blog-created">
+            <b>Created At</b>
             <p>{modifiedDate}</p>
           </div>
         </div>

@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
       <div id="right">
         {state?.currentUser?.name && (
-          <p>
+          <p id="user-name">
             {" "}
             Hi, {state?.currentUser?.name}({state?.currentUser?.role})
           </p>

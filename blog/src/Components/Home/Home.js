@@ -8,32 +8,31 @@ const Home = () => {
   const [allBlogs, setAllBlogs] = useState([]);
   const navigateTo = useNavigate();
   const [title, setTitle] = useState("");
-  const [categoryValue, setCategoryValue] = useState({ filter: "" });
+  const [categoryValue, setCategoryValue] = useState();
 
-  console.log(categoryValue.filter, "category here");
+  console.log(categoryValue, "category here");
 
   const handleCategoryValue = (e) => {
-    setCategoryValue({ [e.target.name]: e.target.value });
+    setCategoryValue(e.target.value);
   };
-
-  // useEffect(() => {
-  //   if (allBlogs?.length && categoryValue.filter != "All") {
-  //     const finalBlogs = allBlogs?.filter(
-  //       (item) => item.category == categoryValue.filter
-  //     );
-
-  //     setAllBlogs(finalBlogs);
-  //   }
-  // }, [allBlogs, categoryValue]);
 
   const handleSearchValue = (e) => {
     setTitle(e.target.value);
   };
 
   useEffect(() => {
+    if (categoryValue == "All") {
+      setCategoryValue("");
+    } else {
+      setCategoryValue(categoryValue);
+    }
+
     const getAllBlogs = async () => {
       try {
-        const response = await api.post("/get-all-blogs", { title });
+        const response = await api.post("/get-all-blogs", {
+          title,
+          category: categoryValue,
+        });
 
         if (response.data.success) {
           setAllBlogs(response.data.allBlogs);
@@ -41,12 +40,12 @@ const Home = () => {
           toast.error(response.data.message);
         }
       } catch (error) {
-        toast.error(error.response.data.message);
+        console.log(error.response.data.message);
       }
     };
 
     getAllBlogs();
-  }, [title]);
+  }, [title, categoryValue]);
 
   return (
     <div id="home-screen">
@@ -68,7 +67,7 @@ const Home = () => {
             <select
               name="filter"
               onChange={handleCategoryValue}
-              value={categoryValue.filter}
+              value={categoryValue}
             >
               <option>All</option>
               <option>Food</option>
@@ -102,9 +101,9 @@ const Home = () => {
                       <span>Read More</span>
                     </p>
                   </div>
-                </div>
-                <div id="blog-category">
-                  <button>{blog.category}</button>
+                  <div id="blog-category">
+                    <button>{blog.category}</button>
+                  </div>
                 </div>
               </div>
             ))

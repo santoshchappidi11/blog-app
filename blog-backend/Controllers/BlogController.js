@@ -4,14 +4,19 @@ import UserModel from "../Models/UserModel.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, category } = req.body;
 
     const query = {};
     if (title) {
       query.title = { $regex: title, $options: "i" };
     }
 
-    const allBlogs = await BlogModel.find(query).lean();
+    const categoryQuery = {};
+    if (category) {
+      categoryQuery.category = { $regex: category, $options: "i" };
+    }
+
+    const allBlogs = await BlogModel.find(query).find(categoryQuery).lean();
 
     if (allBlogs?.length) {
       return res.status(200).json({ success: true, allBlogs });

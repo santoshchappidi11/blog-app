@@ -11,7 +11,7 @@
   align-items: center;
   margin: 20px 0 40px 0;
   padding: 10px 0;
-  border: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(238, 238, 238);
 }
 
 #blog-author {
@@ -50,7 +50,13 @@
 }
 
 #blog-created {
+  text-align: center;
   padding: 0 0 0 10px;
+  /* border: 1px solid black; */
+}
+
+#blog-created > b {
+  font-weight: 600;
 }
 
 #blog-actions {
@@ -111,6 +117,7 @@
 .description > .desc-img {
   height: 350px;
   width: 45%;
+  overflow: hidden;
   /* border: 1px solid black; */
 }
 
@@ -118,6 +125,13 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 6px;
+  transition: 0.5s ease;
+}
+
+.desc-img > img:hover {
+  transform: scale(1.4);
+  cursor: pointer;
 }
 
 .description > .desc {
@@ -127,7 +141,8 @@
 }
 
 #single-blog-footer {
-  border-top: 1px solid rgb(197, 197, 197);
+  background-color: rgb(250, 250, 250);
+  border-top: 1px solid rgb(238, 238, 238);
 }
 
 #single-blog-footer-header {
@@ -136,17 +151,20 @@
 }
 
 #comment-box {
-  padding: 0 0 0 120px;
-  width: 100%;
-  /* border: 1px solid black; */
+  margin: 0 0 0 120px;
+  width: 40%;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border: 1px solid rgb(110, 110, 110);
 }
 
 #comment-box > input {
   height: 40px;
-  width: 50%;
+  width: 85%;
   border: none;
   outline: none;
-  border: 1px solid grey;
+  border-radius: 6px;
+  /* border: 1px solid grey; */
 }
 
 #comment-box > input::placeholder {
@@ -154,17 +172,28 @@
 }
 
 #comment-box > button {
+  /* height: 100%; */
+  width: 15%;
   font-size: 14px;
   font-weight: 500;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 20px;
-  border: 1px solid black;
+  padding: 10px 20px;
+  transition: 0.2s ease;
+  color: white;
+  background-color: black;
+  /* border: 1px solid black; */
+}
+
+#comment-box > button:hover {
+  color: white;
+  background-color: rgb(0, 0, 0, 0.9);
 }
 
 #all-comments {
-  margin: 20px 0 50px 0;
+  width: 100%;
+  padding: 20px 0 50px 0;
 }
 
 .comment {
