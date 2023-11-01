@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
+import { AuthContexts } from "../Context/AuthContext";
 
-const BookmarkBlog = ({ blogId }) => {
+const BookmarkBlog = ({ blogId, bookmarks }) => {
+  const { state } = useContext(AuthContexts);
   const [isBlogBookmarked, setIsBlogBookmarked] = useState();
+  // console.log(isBlogBookmarked, "bookmarked");
+
+  useEffect(() => {
+    for (let i = 0; i < bookmarks?.length; i++) {
+      if (bookmarks[i] == state?.currentUser?.userId) {
+        setIsBlogBookmarked(true);
+      } else {
+        setIsBlogBookmarked(false);
+      }
+    }
+  }, [state, bookmarks]);
 
   const handleBookmarkBlog = async () => {
     const token = JSON.parse(localStorage.getItem("Token"));
@@ -13,30 +26,33 @@ const BookmarkBlog = ({ blogId }) => {
         const response = await api.post("/bookmark-blog", { token, blogId });
 
         if (response.data.success) {
-          setIsBlogBookmarked(response.data.isBlogLike);
+          setIsBlogBookmarked(response.data.isBlogBookmarked);
           toast.success(response.data.message);
         } else {
-          // setIsUserLiked(response.data.isBlogLike);
           toast.error(response.data.message);
         }
       } catch (error) {
         toast.error(error.response.data.message);
       }
+    } else {
+      toast.error("Please Login to add it in bookmarks!");
     }
   };
 
   return (
-    <div onClick={handleBookmarkBlog}>
-      <i
-        class="fa-solid fa-bookmark fa-2x"
-        style={{
-          cursor: "pointer",
-          color: `${isBlogBookmarked ? "red" : "black"}`,
-          // color: "red",
-        }}
-      ></i>
-      <p>Bookmark</p>
-    </div>
+    <>
+      {isBlogBookmarked ? (
+        <div onClick={handleBookmarkBlog}>
+          <i class="fa-solid fa-bookmark fa-2x"></i>
+          <p>Bookmarked</p>
+        </div>
+      ) : (
+        <div onClick={handleBookmarkBlog}>
+          <i class="fa-regular fa-bookmark fa-2x"></i>
+          <p>Bookmark</p>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -40,6 +40,9 @@ const blogSchema = new Schema({
   likes: {
     type: [String],
   },
+  bookmarks: {
+    type: [String],
+  },
   comments: {
     type: [Object],
   },

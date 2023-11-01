@@ -27,7 +27,7 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 5px;
-  border: 1px solid rgb(172, 172, 172);
+  border: 1px solid lightgrey !important;
 }
 
 #search > input {
@@ -136,16 +136,16 @@
 }
 
 #blog-category {
-  margin: 0 0 15px 18px;
+  margin: 0 0 15px 0;
   /* border: 1px solid black; */
 }
 
 #blog-category > button {
-  padding: 5px 12px;
+  padding: 5px 10px;
   border: none;
   background: none;
-  /* border: 1px solid rgb(170, 170, 170); */
-  border-radius: 2px;
+  border-radius: 5px !important;
   font-weight: 500;
   background-color: rgb(214, 214, 214);
+  /* border: 1px solid rgb(170, 170, 170); */
 }

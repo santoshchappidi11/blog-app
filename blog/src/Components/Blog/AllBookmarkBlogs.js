@@ -6,9 +6,20 @@ import "./AllBookmarkBlogs.css";
 
 const AllBookmarkBlogs = () => {
   const navigateTo = useNavigate();
-  const [bookmarkBlogs, setBookmarkBlogs] = useState([]);
+  const [bookmarkBlogs, setBookmarkBlogs] = useState();
+  // const [categoryValue, setCategoryValue] = useState();
+
+  // const handleCategoryValue = (e) => {
+  //   setCategoryValue(e.target.value);
+  // };
 
   useEffect(() => {
+    //   if (categoryValue == "All") {
+    //     setCategoryValue("");
+    //   } else {
+    //     setCategoryValue(categoryValue);
+    // }
+
     const getYourBlogs = async () => {
       const token = JSON.parse(localStorage.getItem("Token"));
       if (token) {
@@ -18,7 +29,7 @@ const AllBookmarkBlogs = () => {
           });
 
           if (response.data.success) {
-            setBookmarkBlogs(response.data.allBookmarks);
+            setBookmarkBlogs(response?.data?.allBookmarks);
           } else {
             toast.error(response.data.message);
           }
@@ -42,7 +53,12 @@ const AllBookmarkBlogs = () => {
         <div id="bookmark-blogs-header-right">
           <div id="blogs-category">
             <p>Category :</p>
-            <select defaultValue="All Blogs">
+            <select
+              name="filter"
+              // onChange={handleCategoryValue}
+              // value={categoryValue}
+            >
+              <option>All</option>
               <option>Food</option>
               <option>Technology</option>
               <option>Automobiles</option>
@@ -56,27 +72,26 @@ const AllBookmarkBlogs = () => {
             bookmarkBlogs?.map((blog) => (
               <div
                 id="single-blog"
-                key={blog._id}
-                onClick={() => navigateTo(`/single-blog/${blog._id}`)}
+                key={blog?._id}
+                onClick={() => navigateTo(`/single-blog/${blog?._id}`)}
               >
                 <div id="main-img">
-                  <div id="blog-img">
-                    <img src={blog.image1} alt="blog" />
+                  <div id="bookmark-blog-img">
+                    <img src={blog?.image1} alt="blog" />
                   </div>
                 </div>
-                <div id="blog-details">
-                  <div id="blog-title">
-                    <h4>{blog.title}</h4>
+                <div id="bookmark-blog-details">
+                  <div id="bookmark-blog-title">
+                    <h4>{blog?.title}</h4>
                   </div>
-                  <div id="blog-desc">
+                  <div id="bookmark-blog-desc">
                     <p>
-                      {blog.description1.slice(0, 200)}...{" "}
-                      <span>Read More</span>
+                      {blog?.description1?.slice(0, 200)}... <b>Read More</b>
                     </p>
                   </div>
-                </div>
-                <div id="blog-category">
-                  <button>{blog.category}</button>
+                  <div id="bookmark-blog-category">
+                    <button>{blog?.category}</button>
+                  </div>
                 </div>
               </div>
             ))

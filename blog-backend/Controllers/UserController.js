@@ -213,6 +213,8 @@ export const likeUnlikeBlog = async (req, res) => {
     const user = await UserModel.findById(userId);
     const blog = await BlogModel.findById(blogId);
 
+    // if(!user) return res.status(404).json({success:false, message:"Please Login to like the blog!"})
+
     // console.log(blog);
 
     if (blog && blog?.likes) {
@@ -277,22 +279,29 @@ export const bookmarkBlog = async (req, res) => {
     const userId = decodedData?.userId;
 
     const user = await UserModel.findById(userId);
-    // const blog = await BlogModel.findById(blogId);
+    const blog = await BlogModel.findById(blogId);
 
     // console.log(blog);
 
-    if (user && user?.bookmarks) {
+    if (user && user?.bookmarks && blog?.bookmarks) {
       let flag = false;
 
       for (let i = 0; i < user?.bookmarks?.length; i++) {
-        if (user?.bookmarks?.includes(blogId)) {
-          flag = true;
+        for (let i = 0; i < blog?.bookmarks?.length; i++) {
+          if (
+            user?.bookmarks?.includes(blogId) &&
+            blog?.bookmarks?.includes(userId)
+          ) {
+            flag = true;
+          }
         }
       }
 
       if (flag == false) {
         user?.bookmarks?.push(blogId);
+        blog?.bookmarks?.push(userId);
         await user.save();
+        await blog.save();
         return res.status(200).json({
           success: true,
           message: "You bookmarked the blog!",
@@ -303,12 +312,24 @@ export const bookmarkBlog = async (req, res) => {
       const updatedBookmarks = user?.bookmarks?.filter(
         (item) => item != blogId
       );
+      const updatedUserBookmarks = blog?.bookmarks?.filter(
+        (item) => item != userId
+      );
+
       const updatedUser = await UserModel.findByIdAndUpdate(
         userId,
         { bookmarks: updatedBookmarks },
         { new: true }
       );
+      const updatedBlog = await BlogModel.findByIdAndUpdate(
+        blogId,
+        { bookmarks: updatedUserBookmarks },
+        { new: true }
+      );
+
       await updatedUser.save();
+      await updatedBlog.save();
+
       return res.status(200).json({
         success: true,
         message: "You removed the bookmark!",
@@ -323,7 +344,17 @@ export const bookmarkBlog = async (req, res) => {
 
 export const getAllBookmarkedBlogs = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, title, category } = req.body;
+
+    const query = {};
+    if (title) {
+      query.title = { $regex: title, $options: "i" };
+    }
+
+    const categoryQuery = {};
+    if (category) {
+      categoryQuery.category = { $regex: category, $options: "i" };
+    }
 
     if (!token)
       return res
@@ -351,6 +382,8 @@ export const getAllBookmarkedBlogs = async (req, res) => {
           allBookmarks.push(blog);
         }
       }
+
+      console.log(allBookmarks, "all bookmrks");
 
       return res.status(200).json({ success: true, allBookmarks });
     }

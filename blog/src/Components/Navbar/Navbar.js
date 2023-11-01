@@ -26,7 +26,8 @@ const Navbar = () => {
         {state?.currentUser?.name && (
           <p id="user-name">
             {" "}
-            Hi, {state?.currentUser?.name}({state?.currentUser?.role})
+            Hi, {state?.currentUser?.name?.toUpperCase()}(
+            {state?.currentUser?.role})
           </p>
         )}
         {state?.currentUser?.role == "User" && (

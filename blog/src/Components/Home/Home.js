@@ -10,7 +10,7 @@ const Home = () => {
   const [title, setTitle] = useState("");
   const [categoryValue, setCategoryValue] = useState();
 
-  console.log(categoryValue, "category here");
+  // console.log(allBlogs, "all blogs");
 
   const handleCategoryValue = (e) => {
     setCategoryValue(e.target.value);
@@ -97,8 +97,7 @@ const Home = () => {
                   </div>
                   <div id="blog-desc">
                     <p>
-                      {blog.description1.slice(0, 200)}...{" "}
-                      <span>Read More</span>
+                      {blog.description1.slice(0, 200)}... <b>Read More</b>
                     </p>
                   </div>
                   <div id="blog-category">

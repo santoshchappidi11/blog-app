@@ -17,6 +17,8 @@ const SingleBlog = () => {
   const [user, setUser] = useState({});
   const [modifiedDate, setModifiedDate] = useState("");
 
+  // console.log(singleBlog, "single blog");
+
   useEffect(() => {
     if (singleBlog?.date) {
       const date = new Date(singleBlog?.date);
@@ -132,8 +134,11 @@ const SingleBlog = () => {
             </>
           ) : (
             <>
-              <LikeBlog blogId={singleBlog._id} />
-              <BookmarkBlog blogId={singleBlog._id} />
+              <LikeBlog blogId={singleBlog._id} likes={singleBlog?.likes} />
+              <BookmarkBlog
+                blogId={singleBlog._id}
+                bookmarks={singleBlog?.bookmarks}
+              />
             </>
           )}
         </div>
