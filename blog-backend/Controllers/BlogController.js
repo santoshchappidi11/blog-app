@@ -4,7 +4,7 @@ import UserModel from "../Models/UserModel.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const { title, category } = req.body;
+    const { page, limit = 2, title, category } = req.body;
 
     const query = {};
     if (title) {
@@ -16,12 +16,25 @@ export const getAllBlogs = async (req, res) => {
       categoryQuery.category = { $regex: category, $options: "i" };
     }
 
-    const allBlogs = await BlogModel.find(query).find(categoryQuery).lean();
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const limitValue = parseInt(limit);
+
+    const allBlogs = await BlogModel.find(query)
+      .find(categoryQuery)
+      .skip(skip)
+      .limit(limitValue)
+      .lean();
 
     if (allBlogs?.length) {
       const blogs = await BlogModel.find({});
 
-      return res.status(200).json({ success: true, allBlogs, blogs });
+      return res.status(200).json({
+        success: true,
+        allBlogs,
+        blogs,
+        blogsCount: blogs?.length,
+        limit,
+      });
     }
 
     return res.status(404).json({ success: false, message: "No Blogs!" });

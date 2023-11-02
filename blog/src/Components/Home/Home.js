@@ -10,9 +10,35 @@ const Home = () => {
   const [filterBlogs, setFilterBlogs] = useState([]);
   const navigateTo = useNavigate();
   const [title, setTitle] = useState("");
+  const [page, setPage] = useState(1);
   const [categoryValue, setCategoryValue] = useState();
+  const [blogsCount, setBlogsCount] = useState();
+  const [pageSize, setPageSize] = useState();
+  const [pageCount, setPageCount] = useState();
 
-  // console.log(allBlogs, "all blogs");
+  // console.log(page, "page");
+  // console.log(blogsCount, "count");
+
+  useEffect(() => {
+    const totalPageCount = Math.ceil(blogsCount / pageSize);
+    setPageCount(totalPageCount);
+  }, [blogsCount, pageSize]);
+
+  const incrementPage = () => {
+    if (page == pageCount) {
+      setPage(1);
+    } else {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    if (page == 1) {
+      setPage(pageCount);
+    } else {
+      setPage((prev) => prev - 1);
+    }
+  };
 
   const handleCategoryValue = (e) => {
     setCategoryValue(e.target.value);
@@ -34,11 +60,14 @@ const Home = () => {
         const response = await api.post("/get-all-blogs", {
           title,
           category: categoryValue,
+          page,
         });
 
         if (response.data.success) {
           setAllBlogs(response.data.allBlogs);
           setFilterBlogs(response.data.blogs);
+          setBlogsCount(response.data.blogsCount);
+          setPageSize(response.data.limit);
         } else {
           toast.error(response.data.message);
         }
@@ -48,7 +77,7 @@ const Home = () => {
     };
 
     getAllBlogs();
-  }, [title, categoryValue]);
+  }, [title, categoryValue, page]);
 
   return (
     <>
@@ -127,14 +156,14 @@ const Home = () => {
 
       <div id="arrows-screen">
         <div id="arrows">
-          <div id="left-arrow">
+          <div id="left-arrow" onClick={decrementPage}>
             {" "}
             <FontAwesomeIcon
               icon="fa-solid fa-chevron-left"
               style={{ fontSize: "40px" }}
             />
           </div>
-          <div id="right-arrow">
+          <div id="right-arrow" onClick={incrementPage}>
             {" "}
             <FontAwesomeIcon
               icon="fa-solid fa-chevron-right"
