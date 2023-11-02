@@ -87,18 +87,30 @@
 #single-blog-title {
   width: 100%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin: 80px 0 20px 0;
   padding: 0 50px;
-  /* border: 5px solid black; */
+  /* border: 1px solid black; */
 }
 
 #single-blog-title > h2 {
   font-weight: 600;
   font-size: 28px;
+  display: table;
+  padding: 5px 20px;
+  border-radius: 6px;
+  margin: 0 0 10px 0;
+  background-color: rgb(228, 228, 228);
+  /* border: 1px solid black; */
 }
 
 #single-blog-title > span {
   font-size: 20px;
+  display: table;
+  /* border: 1px solid black; */
 }
 
 #single-blog-body {

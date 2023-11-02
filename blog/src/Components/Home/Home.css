@@ -1,6 +1,7 @@
 #home-screen {
   height: auto;
   width: 100%;
+  position: absolute;
   /* border: 1px solid black; */
 }
 
@@ -165,7 +166,7 @@
   top: 95%;
   width: 10%;
   aspect-ratio: 3 / 1;
-  transform: translate(-50%, -625%);
+  transform: translate(-50%, -30%);
   border-radius: 50%;
   border: 6px solid hsl(318, 100%, 50%);
   /* Use a conic gradient mask to hide and show the bits you want */
@@ -180,4 +181,37 @@
 
 #no-blogs-msg > h1 {
   color: rgb(94, 94, 94);
+}
+
+#arrows-screen {
+  position: relative;
+  top: 200px;
+  /* border: 1px solid black; */
+}
+
+#arrows {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  /* border: 1px solid red; */
+}
+
+#arrows > #left-arrow,
+#right-arrow {
+  cursor: pointer;
+  padding: 10px 8px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+  /* border: 1px solid rgb(0, 0, 0); */
+}
+
+#left-arrow:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+#right-arrow:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
 }

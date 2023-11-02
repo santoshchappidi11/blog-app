@@ -147,7 +147,7 @@
   top: 95%;
   width: 10%;
   aspect-ratio: 3 / 1;
-  transform: translate(-50%, -625%);
+  transform: translate(-50%, -630%);
   border-radius: 50%;
   border: 6px solid hsl(172, 100%, 50%);
   /* Use a conic gradient mask to hide and show the bits you want */
