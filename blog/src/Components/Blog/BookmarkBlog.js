@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../Context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const BookmarkBlog = ({ blogId, bookmarks }) => {
   const { state } = useContext(AuthContexts);
@@ -41,17 +42,16 @@ const BookmarkBlog = ({ blogId, bookmarks }) => {
 
   return (
     <>
-      {isBlogBookmarked ? (
-        <div onClick={handleBookmarkBlog}>
-          <i class="fa-solid fa-bookmark fa-2x"></i>
-          <p>Bookmarked</p>
-        </div>
-      ) : (
-        <div onClick={handleBookmarkBlog}>
-          <i class="fa-regular fa-bookmark fa-2x"></i>
-          <p>Bookmark</p>
-        </div>
-      )}
+      <div onClick={handleBookmarkBlog}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-bookmark"
+          style={{
+            color: `${isBlogBookmarked ? "blue" : "black"}`,
+            fontSize: "25px",
+          }}
+        />
+        {isBlogBookmarked ? <p>Bookmarked</p> : <p>Bookmark</p>}
+      </div>
     </>
   );
 };

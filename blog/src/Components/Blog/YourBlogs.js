@@ -49,9 +49,13 @@ const YourBlogs = () => {
           <div id="blogs-category">
             <p>Category :</p>
             <select defaultValue="All Blogs">
-              <option>Food</option>
-              <option>Technology</option>
-              <option>Automobiles</option>
+              <option>All</option>
+              {yourBlogs?.length &&
+                yourBlogs?.map((blog) => (
+                  <>
+                    <option key={blog._id}>{blog?.category}</option>
+                  </>
+                ))}
             </select>
           </div>
         </div>
@@ -76,8 +80,7 @@ const YourBlogs = () => {
                   </div>
                   <div id="blog-desc">
                     <p>
-                      {blog.description1.slice(0, 200)}...{" "}
-                      <span>Read More</span>
+                      {blog.description1.slice(0, 200)}... <b>Read More</b>
                     </p>
                   </div>
                   <div id="blog-category">

@@ -19,7 +19,9 @@ export const getAllBlogs = async (req, res) => {
     const allBlogs = await BlogModel.find(query).find(categoryQuery).lean();
 
     if (allBlogs?.length) {
-      return res.status(200).json({ success: true, allBlogs });
+      const blogs = await BlogModel.find({});
+
+      return res.status(200).json({ success: true, allBlogs, blogs });
     }
 
     return res.status(404).json({ success: false, message: "No Blogs!" });
@@ -172,7 +174,7 @@ export const getYourBlogs = async (req, res) => {
   try {
     const { token } = req.body;
 
-    console.log(token);
+    // console.log(token);
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
     if (!decodedData)
@@ -184,7 +186,7 @@ export const getYourBlogs = async (req, res) => {
 
     const blogs = await BlogModel.find({ userId: userId });
 
-    console.log(blogs, "blogs");
+    // console.log(blogs, "blogs");
 
     if (blogs?.length)
       return res

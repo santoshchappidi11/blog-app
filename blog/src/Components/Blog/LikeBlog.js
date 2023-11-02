@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../Context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { useParams } from "react-router-dom";
 
 const LikeBlog = ({ blogId, likes }) => {
@@ -44,17 +45,16 @@ const LikeBlog = ({ blogId, likes }) => {
 
   return (
     <>
-      {isBlogLiked ? (
-        <div onClick={handleLikeUnlike}>
-          <i class="fa-solid fa-heart fa-2x"></i>
-          <p>UnLike</p>
-        </div>
-      ) : (
-        <div onClick={handleLikeUnlike}>
-          <i class="fa-regular fa-heart fa-2x"></i>
-          <p>Like</p>
-        </div>
-      )}
+      <div onClick={handleLikeUnlike}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-heart"
+          style={{
+            color: `${isBlogLiked ? "red" : "black"}`,
+            fontSize: "25px",
+          }}
+        />
+        {isBlogLiked ? <p>Liked</p> : <p>Like</p>}
+      </div>
     </>
   );
 };

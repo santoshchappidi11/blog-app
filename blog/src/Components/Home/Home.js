@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [allBlogs, setAllBlogs] = useState([]);
+  const [filterBlogs, setFilterBlogs] = useState([]);
   const navigateTo = useNavigate();
   const [title, setTitle] = useState("");
   const [categoryValue, setCategoryValue] = useState();
@@ -36,6 +37,7 @@ const Home = () => {
 
         if (response.data.success) {
           setAllBlogs(response.data.allBlogs);
+          setFilterBlogs(response.data.blogs);
         } else {
           toast.error(response.data.message);
         }
@@ -70,9 +72,16 @@ const Home = () => {
               value={categoryValue}
             >
               <option>All</option>
+              {filterBlogs?.length &&
+                filterBlogs?.map((blog) => (
+                  <>
+                    <option key={blog._id}>{blog?.category}</option>
+                  </>
+                ))}
+              {/* <option>All</option>
               <option>Food</option>
               <option>Technology</option>
-              <option>Automobiles</option>
+              <option>Automobiles</option> */}
             </select>
           </div>
         </div>

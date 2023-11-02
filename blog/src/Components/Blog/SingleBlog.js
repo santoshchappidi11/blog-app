@@ -6,6 +6,7 @@ import api from "../../ApiConfig";
 import { AuthContexts } from "../Context/AuthContext";
 import LikeBlog from "./LikeBlog";
 import BookmarkBlog from "./BookmarkBlog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SingleBlog = () => {
   const { state } = useContext(AuthContexts);
@@ -132,7 +133,7 @@ const SingleBlog = () => {
       <div id="single-blog-header">
         <div id="blog-author">
           <div id="author">
-            <i class="fa-solid fa-circle-user fa-2x"></i>
+            <FontAwesomeIcon icon="fa-solid fa-circle-user fa-2x" />
             <div id="author-details">
               <p>{user?.name}</p>
               <span>{user?.email}</span>
@@ -149,11 +150,17 @@ const SingleBlog = () => {
               <div
                 onClick={() => navigateTo(`/edit-your-blog/${singleBlog._id}`)}
               >
-                <i class="fa-solid fa-pen-to-square fa-2x"></i>
+                <FontAwesomeIcon
+                  icon="fa-solid fa-pen-to-square"
+                  style={{ fontSize: "25px" }}
+                />
                 <p>Edit Your Blog</p>
               </div>
               <div onClick={() => handleDeleteBlog(singleBlog._id)}>
-                <i class="fa-solid fa-trash fa-2x"></i>
+                <FontAwesomeIcon
+                  icon="fa-solid fa-trash"
+                  style={{ fontSize: "25px" }}
+                />
                 <p>Delete Your Blog</p>
               </div>
             </>
@@ -230,7 +237,7 @@ const SingleBlog = () => {
                     className="main-delete-comment"
                     onClick={() => deleteBlogComment(item?.commentId)}
                   >
-                    <i class="fa-solid fa-xmark"></i>
+                    <FontAwesomeIcon icon="fa-solid fa-xmark" />
                   </div>
                 </div>
                 <div className="user">

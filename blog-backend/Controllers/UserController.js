@@ -482,10 +482,10 @@ export const deleteComment = async (req, res) => {
             blog?.comments[i]?.userId?.equals(user._id) &&
             blog?.comments[i]?.commentId == ID
           ) {
-            console.log(blog?.comments[i]?.userId, "comment user id");
-            console.log(user._id, "login user id");
-            console.log(blog?.comments[i]?.commentId, "comment id");
-            console.log(ID, "body id");
+            // console.log(blog?.comments[i]?.userId, "comment user id");
+            // console.log(user._id, "login user id");
+            // console.log(blog?.comments[i]?.commentId, "comment id");
+            // console.log(ID, "body id");
             flag = true;
             console.log("true reached here");
           }
