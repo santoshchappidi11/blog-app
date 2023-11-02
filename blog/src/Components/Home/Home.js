@@ -107,7 +107,11 @@ const Home = () => {
               </div>
             ))
           ) : (
-            <p>No Blogs found!</p>
+            <div id="no-blogs">
+              <div id="no-blogs-msg">
+                <h1>NO BLOGS FOUND!</h1>
+              </div>
+            </div>
           )}
         </div>
       </div>

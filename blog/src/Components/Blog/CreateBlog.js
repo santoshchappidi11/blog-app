@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import api from "../../ApiConfig";
 import "./CreateBlog.css";
+import { AuthContexts } from "../Context/AuthContext";
 
 const CreateBlog = () => {
   const navigateTo = useNavigate();
+  const { state } = useContext(AuthContexts);
 
   const [blogData, setBlogData] = useState({
     title: "",
@@ -18,6 +20,12 @@ const CreateBlog = () => {
     description3: "",
     category: "",
   });
+
+  useEffect(() => {
+    if (!state?.currentUser?.name) {
+      navigateTo("/");
+    }
+  }, [state, navigateTo]);
 
   const handleChangeValues = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
@@ -74,7 +82,7 @@ const CreateBlog = () => {
         <h1>A</h1>
         <h1>T</h1>
         <h1>E</h1>
-        <br/>
+        <br />
         <h1>B</h1>
         <h1>L</h1>
         <h1>O</h1>

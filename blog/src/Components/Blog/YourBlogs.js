@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./YourBlogs.css";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AuthContexts } from "../Context/AuthContext";
 
 const YourBlogs = () => {
+  const { state } = useContext(AuthContexts);
   const [yourBlogs, setYourBlogs] = useState([]);
   const navigateTo = useNavigate();
 
-  
+  useEffect(() => {
+    if (!state?.currentUser?.name) {
+      navigateTo("/");
+    }
+  }, [state, navigateTo]);
 
   useEffect(() => {
     const getYourBlogs = async () => {
@@ -74,14 +80,18 @@ const YourBlogs = () => {
                       <span>Read More</span>
                     </p>
                   </div>
-                </div>
-                <div id="blog-category">
-                  <button>{blog.category}</button>
+                  <div id="blog-category">
+                    <button>{blog.category}</button>
+                  </div>
                 </div>
               </div>
             ))
           ) : (
-            <p>No Blogs found!</p>
+            <div id="no-your-blogs">
+              <div id="no-your-blogs-msg">
+                <h1>NO BLOGS FOUND!</h1>
+              </div>
+            </div>
           )}
         </div>
       </div>

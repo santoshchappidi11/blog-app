@@ -133,3 +133,33 @@
   font-weight: 500;
   background-color: rgb(214, 214, 214);
 }
+
+#no-your-blogs {
+  width: 50%;
+  text-align: center;
+  margin: 120px 0 0 0;
+  /* border: 1px solid black; */
+}
+
+#no-your-blogs-msg::after {
+  content: "";
+  position: absolute;
+  top: 95%;
+  width: 10%;
+  aspect-ratio: 3 / 1;
+  transform: translate(-50%, -625%);
+  border-radius: 50%;
+  border: 6px solid hsl(172, 100%, 50%);
+  /* Use a conic gradient mask to hide and show the bits you want */
+  --spread: 140deg;
+  --start: 290deg;
+  mask: conic-gradient(
+    from var(--start),
+    white 0 var(--spread),
+    transparent var(--spread)
+  );
+}
+
+#no-your-blogs-msg > h1 {
+  color: rgb(94, 94, 94);
+}

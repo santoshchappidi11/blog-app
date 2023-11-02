@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./EditYourBlog.css";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
+import { AuthContexts } from "../Context/AuthContext";
 
 const EditYourBlog = () => {
+  const {state} = useContext(AuthContexts)
   const navigateTo = useNavigate();
   const { editBlogId } = useParams();
 
@@ -19,6 +21,13 @@ const EditYourBlog = () => {
     description3: "",
     category: "",
   });
+
+
+   useEffect(() => {
+    if (!state?.currentUser?.name) {
+      navigateTo("/");
+    }
+  }, [state, navigateTo]);
 
   useEffect(() => {
     const getEditBlogData = async () => {

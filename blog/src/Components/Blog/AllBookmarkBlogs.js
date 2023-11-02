@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./AllBookmarkBlogs.css";
+import { AuthContexts } from "../Context/AuthContext";
 
 const AllBookmarkBlogs = () => {
+  const { state } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [bookmarkBlogs, setBookmarkBlogs] = useState();
   // const [categoryValue, setCategoryValue] = useState();
@@ -12,6 +14,12 @@ const AllBookmarkBlogs = () => {
   // const handleCategoryValue = (e) => {
   //   setCategoryValue(e.target.value);
   // };
+
+  useEffect(() => {
+    if (!state?.currentUser?.name) {
+      navigateTo("/");
+    }
+  }, [state, navigateTo]);
 
   useEffect(() => {
     //   if (categoryValue == "All") {
@@ -96,7 +104,11 @@ const AllBookmarkBlogs = () => {
               </div>
             ))
           ) : (
-            <p>No Blogs found!</p>
+            <div id="no-bookmark-blogs">
+              <div id="no-bookmark-blogs-msg">
+                <h1>NO BLOGS FOUND!</h1>
+              </div>
+            </div>
           )}
         </div>
       </div>

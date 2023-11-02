@@ -12,6 +12,7 @@
 }
 
 #edit-blog-header-style > h1 {
+  color: rgb(94, 94, 94);
   font-size: 35px;
   text-transform: uppercase;
 }

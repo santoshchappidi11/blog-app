@@ -12,6 +12,7 @@
 }
 
 #register-header-style > h1 {
+  color: rgb(94, 94, 94);
   font-size: 35px;
   text-transform: uppercase;
 }
@@ -24,7 +25,7 @@
   aspect-ratio: 3 / 1;
   transform: translate(-50%, 20%);
   border-radius: 50%;
-  border: 6px solid hsl(0, 100%, 46%);
+  border: 6px solid hsl(29, 100%, 50%);
   /* Use a conic gradient mask to hide and show the bits you want */
   --spread: 140deg;
   --start: 290deg;
