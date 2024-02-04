@@ -123,6 +123,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-direction: column;
   /* border: 1px solid blue; */
 }
 
@@ -148,7 +149,7 @@
 }
 
 .description > .desc {
-  width: 45%;
+  width: 70%;
   text-align: justify;
   padding: 15px 25px;
   border-radius: 6px;
@@ -284,4 +285,16 @@
 #no-comment-msg {
   text-align: center;
   /* border: 1px solid black; */
+}
+
+#single-blog-loading{
+  height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#single-blog-loading h3{
+  font-size: 25px;
 }

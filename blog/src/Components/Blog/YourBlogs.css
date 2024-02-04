@@ -163,3 +163,15 @@
 #no-your-blogs-msg > h1 {
   color: rgb(94, 94, 94);
 }
+
+#your-blog-loading{
+  height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#your-blog-loading h3{
+  font-size: 25px;
+}

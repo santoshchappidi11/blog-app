@@ -2,10 +2,17 @@ import React, { useContext } from "react";
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContexts } from "../Context/AuthContext";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const navigateTo = useNavigate();
   const { state, Logout } = useContext(AuthContexts);
+
+  const handleUserLogout = () => {
+    Logout();
+    toast.success("Logout Successfull!");
+    navigateTo("/login");
+  };
 
   return (
     <div id="navbar">
@@ -36,7 +43,7 @@ const Navbar = () => {
         {!state?.currentUser?.name && (
           <p onClick={() => navigateTo("/login")}>Register/Login</p>
         )}
-        {state?.currentUser?.name && <p onClick={Logout}>Logout</p>}
+        {state?.currentUser?.name && <p onClick={handleUserLogout}>Logout</p>}
       </div>
     </div>
   );

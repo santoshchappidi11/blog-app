@@ -15,6 +15,7 @@ const Home = () => {
   const [blogsCount, setBlogsCount] = useState();
   const [pageSize, setPageSize] = useState();
   const [pageCount, setPageCount] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   // console.log(page, "page");
   // console.log(blogsCount, "count");
@@ -68,7 +69,9 @@ const Home = () => {
           setFilterBlogs(response.data.blogs);
           setBlogsCount(response.data.blogsCount);
           setPageSize(response.data.limit);
+          setIsLoading(false);
         } else {
+          setIsLoading(false);
           toast.error(response.data.message);
         }
       } catch (error) {
@@ -114,42 +117,48 @@ const Home = () => {
           </div>
         </div>
         <div id="home-body">
-          <div id="all-blogs">
-            {allBlogs?.length ? (
-              allBlogs?.map((blog) => (
-                <div
-                  id="single-blog"
-                  key={blog._id}
-                  onClick={() => navigateTo(`/single-blog/${blog._id}`)}
-                >
-                  <div id="main-img">
-                    <div id="blog-img">
-                      <img src={blog.image1} alt="blog" />
+          {isLoading ? (
+            <div id="blogs-loading">
+              <h3>Loading...</h3>
+            </div>
+          ) : (
+            <div id="all-blogs">
+              {allBlogs?.length ? (
+                allBlogs?.map((blog) => (
+                  <div
+                    id="single-blog"
+                    key={blog._id}
+                    onClick={() => navigateTo(`/single-blog/${blog._id}`)}
+                  >
+                    <div id="main-img">
+                      <div id="blog-img">
+                        <img src={blog.image1} alt="blog" />
+                      </div>
+                    </div>
+                    <div id="blog-details">
+                      <div id="blog-title">
+                        <h4>{blog.title}</h4>
+                      </div>
+                      <div id="blog-desc">
+                        <p>
+                          {blog.description1.slice(0, 200)}... <b>Read More</b>
+                        </p>
+                      </div>
+                      <div id="blog-category">
+                        <button>{blog.category}</button>
+                      </div>
                     </div>
                   </div>
-                  <div id="blog-details">
-                    <div id="blog-title">
-                      <h4>{blog.title}</h4>
-                    </div>
-                    <div id="blog-desc">
-                      <p>
-                        {blog.description1.slice(0, 200)}... <b>Read More</b>
-                      </p>
-                    </div>
-                    <div id="blog-category">
-                      <button>{blog.category}</button>
-                    </div>
+                ))
+              ) : (
+                <div id="no-blogs">
+                  <div id="no-blogs-msg">
+                    <h1>NO BLOGS FOUND!</h1>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div id="no-blogs">
-                <div id="no-blogs-msg">
-                  <h1>NO BLOGS FOUND!</h1>
-                </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
           {/* <FontAwesomeIcon icon="fa-solid fa-circle-chevron-left" /> */}
         </div>
       </div>
