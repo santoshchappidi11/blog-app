@@ -65,7 +65,7 @@
 }
 
 #all-blogs {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -75,7 +75,7 @@
 }
 
 #single-blog {
-  width: 27%;
+  /* width: 25%; */
   cursor: pointer;
   border-radius: 6px;
   /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */

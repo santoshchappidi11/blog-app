@@ -4,7 +4,7 @@ import UserModel from "../Models/UserModel.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const { page, limit = 2, title, category } = req.body;
+    const { page, limit = 3, title, category } = req.body;
 
     const query = {};
     if (title) {
